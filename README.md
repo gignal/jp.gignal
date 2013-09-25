@@ -1,4 +1,4 @@
-# Roskilde Festival 2013
+# Gignal Widget
 
 ## Install
 
