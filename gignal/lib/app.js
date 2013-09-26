@@ -326,7 +326,7 @@ jQuery(function($) {
   Backbone.$ = $;
   document.gignal.widget = new document.gignal.views.Event();
   document.gignal.stream = new Stream([], {
-    url: 'http://api.gignal.com/event/api/uuid/' + $('#gignal-widget').data('eventid') + '?callback=?'
+    url: 'http://gignal-api.elasticbeanstalk.com/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
   });
   return $(window).on('scrollBottom', {
     offsetY: -100
