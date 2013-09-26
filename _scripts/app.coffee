@@ -46,6 +46,7 @@ class Stream extends Backbone.Collection
     @on 'add', @inset
     @update()
     @setIntervalUpdate()
+    @updateTimes()
 
   inset: (model) =>
     switch model.get 'type'
@@ -108,3 +109,10 @@ class Stream extends Backbone.Collection
       sleep = 10000
       setInterval document.gignal.stream.update, sleep
     , start
+
+  updateTimes: ->
+    sleep = 30000
+    setInterval ->
+      document.gignal.stream.each (model) ->
+        model.set 'since', humaneDate(model.get('creation'))
+    , sleep

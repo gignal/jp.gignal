@@ -81,7 +81,8 @@ Stream = (function(_super) {
   Stream.prototype.initialize = function() {
     this.on('add', this.inset);
     this.update();
-    return this.setIntervalUpdate();
+    this.setIntervalUpdate();
+    return this.updateTimes();
   };
 
   Stream.prototype.inset = function(model) {
@@ -167,6 +168,16 @@ Stream = (function(_super) {
       sleep = 10000;
       return setInterval(document.gignal.stream.update, sleep);
     }, start);
+  };
+
+  Stream.prototype.updateTimes = function() {
+    var sleep;
+    sleep = 30000;
+    return setInterval(function() {
+      return document.gignal.stream.each(function(model) {
+        return model.set('since', humaneDate(model.get('creation')));
+      });
+    }, sleep);
   };
 
   return Stream;
