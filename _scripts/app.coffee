@@ -18,14 +18,6 @@ class Post extends Backbone.Model
         direct = 'http://twitter.com/' + username + '/status/' + @get 'original_id'
       when 'Facebook'
         direct = 'http://facebook.com/' + @get 'original_id'
-      # when 'Instagram'
-      #   direct = @get 'direct_url'
-      #   if not direct
-      #     @set 'direct_url', '#'
-      #     $.getJSON('https://api.instagram.com/v1/media/' + @get('original_id') + '?client_id=3ebcc844a6df41169c1955e0f75d6fce&callback=?')
-      #     .done (response) =>
-      #       if response.data?
-      #         @set 'direct_url', response.data.link
       else
         direct = '#'
     data =
@@ -46,7 +38,6 @@ class Stream extends Backbone.Collection
 
   calling: false
   parameters:
-    cid: 0
     limit: 25
     offset: 0
     sinceTime: 0
@@ -64,9 +55,7 @@ class Stream extends Backbone.Collection
       when 'photo'
         view = new document.gignal.views.PhotoBox
           model: model
-    method = if not @append then 'prepend' else 'append'
-    document.gignal.widget.$el[method](view.render().el).isotope('reloadItems').isotope
-      sortBy: 'original-order'
+    document.gignal.widget.$el.isotope 'insert', view.render().$el
     document.gignal.widget.refresh()
 
 
@@ -90,17 +79,11 @@ class Stream extends Backbone.Collection
     if not @append
       sinceTime = _.max(@pluck('saved_on'))
       if not _.isFinite sinceTime
-        # # one hour in milliseconds
-        # past = 60 * 60 * 1000
-        # # floor by past then subtract past
-        # sinceTime = (past * (Math.floor(+new Date() / past))) - past
-        # sinceTime = Math.ceil sinceTime / 1000
         sinceTime = null
       offset = 0
     else
       sinceTime = _.min(@pluck('saved_on'))
       offset = @parameters.offset += @parameters.limit
-    #sinceTimeCall = _.max(@pluck('saved_on'))
     @fetch
       remove: false
       cache: true
@@ -110,27 +93,18 @@ class Stream extends Backbone.Collection
         limit: @parameters.limit
         offset: offset if offset
         sinceTime: sinceTime if _.isFinite sinceTime
-        #cid: @parameters.cid += 1
       success: =>
         @calling = false
-        # reset cache id?
-        # if sinceTimeCall isnt _.max(@pluck('saved_on'))
-        #   @parameters.cid = 0
       error: (c, response) =>
         @calling = false
-        # if response.statusText is 'timeout'
-        #   @calling = false
-        # else
-        #   window.setTimeout ->
-        #     location.reload true
-        #   , 10000
 
 
   setIntervalUpdate: ->
     sleep = 10000
     # floor by 5sec then add 5sec
-    start = (sleep * (Math.floor(+new Date() / sleep))) + sleep
-    window.setTimeout ->
+    now = +new Date()
+    start = (sleep * (Math.floor(now / sleep))) + sleep - now
+    setTimeout ->
       sleep = 10000
-      window.setInterval document.gignal.stream.update, sleep
+      setInterval document.gignal.stream.update, sleep
     , start

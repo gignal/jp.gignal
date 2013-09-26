@@ -1,11 +1,15 @@
 class document.gignal.views.Event extends Backbone.View
 
   el: '#gignal-widget'
-  columnWidth: 240
+  columnWidth: 230
   isotoptions:
     itemSelector: '.gignal-outerbox'
     layoutMode: 'masonry'
-    sortAscending: true
+    sortAscending: false
+    sortBy: 'saved_on'
+    getSortData:
+      saved_on: (el) ->
+        parseInt(el.data('saved_on'), 10)
 
   initialize: ->
     # set Isotope masonry columnWidth
@@ -28,11 +32,14 @@ class document.gignal.views.TextBox extends Backbone.View
   initialize: ->
     @listenTo @model, 'change', @render
   render: =>
+    @$el.data 'saved_on', @model.get('saved_on')
+    # set width
     @$el.css 'width', document.gignal.widget.columnWidth
+    # owner?
     if @model.get 'admin_entry'
       @$el.addClass 'gignal-owner'
-    else if @model.get('username') is 'roskildefestival' and @model.get('service') is 'Instagram'
-      @$el.addClass 'gignal-owner'
+    # else if @model.get('username') is 'roskildefestival' and @model.get('service') is 'Instagram'
+    #   @$el.addClass 'gignal-owner'
     data = @model.getData()
     if not data.message
       document.gignal.widget.$el.isotope 'remove', @$el
@@ -54,13 +61,14 @@ class document.gignal.views.PhotoBox extends Backbone.View
     img.onerror = =>
       document.gignal.widget.$el.isotope 'remove', @$el
   render: =>
+    @$el.data 'saved_on', @model.get('saved_on')
     # set width
     @$el.css 'width', document.gignal.widget.columnWidth
     # owner?
     if @model.get 'admin_entry'
       @$el.addClass 'gignal-owner'
-    else if @model.get 'username' is 'roskildefestival' and @model.get 'service' is 'Instagram'
-      @$el.addClass 'gignal-owner'
+    # else if @model.get 'username' is 'roskildefestival' and @model.get 'service' is 'Instagram'
+    #   @$el.addClass 'gignal-owner'
     # get data
     data = @model.getData()
     # img exist?

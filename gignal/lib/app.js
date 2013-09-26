@@ -73,7 +73,6 @@ Stream = (function(_super) {
   Stream.prototype.calling = false;
 
   Stream.prototype.parameters = {
-    cid: 0,
     limit: 25,
     offset: 0,
     sinceTime: 0
@@ -86,7 +85,7 @@ Stream = (function(_super) {
   };
 
   Stream.prototype.inset = function(model) {
-    var method, view;
+    var view;
     switch (model.get('type')) {
       case 'text':
         view = new document.gignal.views.TextBox({
@@ -98,10 +97,7 @@ Stream = (function(_super) {
           model: model
         });
     }
-    method = !this.append ? 'prepend' : 'append';
-    document.gignal.widget.$el[method](view.render().el).isotope('reloadItems').isotope({
-      sortBy: 'original-order'
-    });
+    document.gignal.widget.$el.isotope('insert', view.render().$el);
     return document.gignal.widget.refresh();
   };
 
@@ -163,12 +159,13 @@ Stream = (function(_super) {
   };
 
   Stream.prototype.setIntervalUpdate = function() {
-    var sleep, start;
+    var now, sleep, start;
     sleep = 10000;
-    start = (sleep * (Math.floor(+new Date() / sleep))) + sleep;
-    return window.setTimeout(function() {
+    now = +new Date();
+    start = (sleep * (Math.floor(now / sleep))) + sleep - now;
+    return setTimeout(function() {
       sleep = 10000;
-      return window.setInterval(document.gignal.stream.update, sleep);
+      return setInterval(document.gignal.stream.update, sleep);
     }, start);
   };
 
@@ -187,12 +184,18 @@ document.gignal.views.Event = (function(_super) {
 
   Event.prototype.el = '#gignal-widget';
 
-  Event.prototype.columnWidth = 240;
+  Event.prototype.columnWidth = 230;
 
   Event.prototype.isotoptions = {
     itemSelector: '.gignal-outerbox',
     layoutMode: 'masonry',
-    sortAscending: true
+    sortAscending: false,
+    sortBy: 'saved_on',
+    getSortData: {
+      saved_on: function(el) {
+        return parseInt(el.data('saved_on'), 10);
+      }
+    }
   };
 
   Event.prototype.initialize = function() {
@@ -235,10 +238,9 @@ document.gignal.views.TextBox = (function(_super) {
 
   TextBox.prototype.render = function() {
     var data;
+    this.$el.data('saved_on', this.model.get('saved_on'));
     this.$el.css('width', document.gignal.widget.columnWidth);
     if (this.model.get('admin_entry')) {
-      this.$el.addClass('gignal-owner');
-    } else if (this.model.get('username') === 'roskildefestival' && this.model.get('service') === 'Instagram') {
       this.$el.addClass('gignal-owner');
     }
     data = this.model.getData();
@@ -286,10 +288,9 @@ document.gignal.views.PhotoBox = (function(_super) {
 
   PhotoBox.prototype.render = function() {
     var data;
+    this.$el.data('saved_on', this.model.get('saved_on'));
     this.$el.css('width', document.gignal.widget.columnWidth);
     if (this.model.get('admin_entry')) {
-      this.$el.addClass('gignal-owner');
-    } else if (this.model.get('username' === 'roskildefestival' && this.model.get('service' === 'Instagram'))) {
       this.$el.addClass('gignal-owner');
     }
     data = this.model.getData();
