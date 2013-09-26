@@ -10,7 +10,8 @@ jQuery ($) ->
   document.gignal.stream = new Stream [],
     #url: 'http://api.gignal.com/event/api/uuid/' + $('#gignal-widget').data('eventid') + '?callback=?'
     #url: 'http://localhost:3000/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
-    url: 'http://gignal-api.elasticbeanstalk.com/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
+    #url: 'http://gignal-api.elasticbeanstalk.com/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
+    url: 'http://api.gignal.com/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
 
 
   $(window).on 'scrollBottom', offsetY: -100, ->
