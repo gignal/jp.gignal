@@ -1,3 +1,10 @@
+getParameterByName = (name) ->
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
+  regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
+  results = regex.exec(location.search)
+  (if not results? then '' else decodeURIComponent(results[1].replace(/\+/g, ' ')))
+
+
 jQuery ($) ->
 
   $.ajaxSetup
@@ -7,11 +14,12 @@ jQuery ($) ->
 
   document.gignal.widget = new document.gignal.views.Event()
 
+  eventid = $('#gignal-widget').data('eventid')
+  if getParameterByName 'eventid'
+    eventid = getParameterByName 'eventid'
+
   document.gignal.stream = new Stream [],
-    #url: 'http://api.gignal.com/event/api/uuid/' + $('#gignal-widget').data('eventid') + '?callback=?'
-    #url: 'http://localhost:3000/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
-    #url: 'http://gignal-api.elasticbeanstalk.com/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
-    url: 'http://api.gignal.com/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
+    url: 'http://api.gignal.com/fetch/' + eventid + '?callback=?'
 
 
   $(window).on 'scrollBottom', offsetY: -100, ->
