@@ -1,4 +1,4 @@
-var Post, Stream, _ref, _ref1, _ref2, _ref3, _ref4,
+var Post, Stream, getParameterByName, _ref, _ref1, _ref2, _ref3, _ref4,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -331,14 +331,31 @@ document.gignal.views.PhotoBox = (function(_super) {
 
 })(Backbone.View);
 
+getParameterByName = function(name) {
+  var regex, results;
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  results = regex.exec(location.search);
+  if (results == null) {
+    return '';
+  } else {
+    return decodeURIComponent(results[1].replace(/\+/g, ' '));
+  }
+};
+
 jQuery(function($) {
+  var eventid;
   $.ajaxSetup({
     cache: true
   });
   Backbone.$ = $;
   document.gignal.widget = new document.gignal.views.Event();
+  eventid = $('#gignal-widget').data('eventid');
+  if (getParameterByName('eventid')) {
+    eventid = getParameterByName('eventid');
+  }
   document.gignal.stream = new Stream([], {
-    url: 'http://api.gignal.com/fetch/' + $('#gignal-widget').data('eventid') + '?callback=?'
+    url: 'http://api.gignal.com/fetch/' + eventid + '?callback=?'
   });
   return $(window).on('scrollBottom', {
     offsetY: -100
