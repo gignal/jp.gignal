@@ -33,7 +33,7 @@
 #gignal-stream #gignal-widget .gignal-owner .gignal-box-footer{color:#333}
 #gignal-stream #gignal-widget .gignal-owner .gignal-service{display:none}
 #gignal-stream #gignal-widget .gignal-imagebox{position:relative;padding:10px;word-wrap:break-word;overflow:hidden;color:#fff;text-align:center;}
-#gignal-stream #gignal-widget .gignal-imagebox .gignal-image{height:185px;background-size:cover}
-#gignal-stream #gignal-footer{width:100%;z-index:999;}
-#gignal-stream #gignal-footer .flap{position:relative;background-color:#fff;width:168px;height:66px;margin:0 auto;}
+#gignal-stream #gignal-widget .gignal-imagebox .gignal-image{height:185px;background-size:cover;background-image:url("../gignal/images/Gignal-G.png")}
+#gignal-stream #gignal-footer{position:fixed;right:-55px;bottom:80px;z-index:9999;-webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);-o-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);}
+#gignal-stream #gignal-footer .flap{position:relative;background-color:#000;opacity:.75;width:168px;height:66px;margin:0 auto;}
 #gignal-stream #gignal-footer .flap img{position:relative;top:10px;height:46px;display:block;margin:0 auto;border:none}

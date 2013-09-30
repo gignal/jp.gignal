@@ -355,7 +355,7 @@ jQuery(function($) {
     eventid = getParameterByName('eventid');
   }
   document.gignal.stream = new Stream([], {
-    url: 'http://api.gignal.com/fetch/' + eventid + '?callback=?'
+    url: '//api.gignal.com/fetch/' + eventid + '?callback=?'
   });
   return $(window).on('scrollBottom', {
     offsetY: -100
