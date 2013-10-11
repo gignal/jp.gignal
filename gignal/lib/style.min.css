@@ -1,4 +1,4 @@
-body{margin:0}
+body{margin:0;padding:0}
 #gignal-stream{background-color:#fff;}
 #gignal-stream header{background-color:#fff;margin:0 3px;padding:0 3px;}
 #gignal-stream header h1{font-size:2em;text-transform:uppercase;color:#fff}
