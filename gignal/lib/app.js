@@ -212,7 +212,7 @@ document.gignal.views.Event = (function(_super) {
   Event.prototype.initialize = function() {
     var columnsAsInt, magic, mainWidth, radix;
     radix = 10;
-    magic = 10;
+    magic = 15;
     mainWidth = this.$el.innerWidth();
     columnsAsInt = parseInt(mainWidth / this.columnWidth, radix);
     this.columnWidth = this.columnWidth + (parseInt((mainWidth - (columnsAsInt * this.columnWidth)) / columnsAsInt, radix) - magic);
