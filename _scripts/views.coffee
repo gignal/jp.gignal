@@ -14,7 +14,7 @@ class document.gignal.views.Event extends Backbone.View
   initialize: ->
     # set Isotope masonry columnWidth
     radix = 10
-    magic = 15
+    magic = 20
     mainWidth = @$el.innerWidth()
     columnsAsInt = parseInt(mainWidth / @columnWidth, radix)
     @columnWidth = @columnWidth + (parseInt((mainWidth - (columnsAsInt * @columnWidth)) / columnsAsInt, radix) - magic)

@@ -20,6 +20,7 @@ jQuery ($) ->
 
   document.gignal.stream = new Stream [],
     url: '//api.gignal.com/fetch/' + eventid + '?callback=?'
+    #url: '//localhost:3000/fetch/' + eventid + '?callback=?'
 
 
   $(window).on 'scrollBottom', offsetY: -100, ->
